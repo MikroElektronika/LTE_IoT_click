@@ -1,0 +1,36 @@
+{*
+
+Use mikroE Timer Calculator to generate proper timer configuration
+and timer ISR.
+
+https://www.mikroe.com/timer-calculator
+
+*}
+unit Click_LTE_IoT_timer;
+
+uses Click_LTE_IoT_types;
+
+procedure lteiot_configTimer(); 
+
+implementation
+
+procedure lteiot_configTimer(); 
+begin
+
+    T1CON := 0x8000; 
+    T1IE_bit := 1; 
+    T1IF_bit := 0; 
+    IPC0 := (IPC0 or 0x1000); 
+    PR1 := 4000; 
+
+end;
+
+procedure Timer_interrupt(); iv IVT_ADDR_T1INTERRUPT;
+begin
+
+    lteiot_tick(); 
+    T1IF_bit := 0; 
+
+end;
+
+end.
